@@ -21,8 +21,6 @@ namespace EmployeeManagement.Infrastructure
 
             services.AddScoped<ITokenService, JwtTokenService>();
 
-            services.AddScoped<PasswordHasher>();
-
             return services;
         }
     }

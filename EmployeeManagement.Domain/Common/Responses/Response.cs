@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace EmployeeManagement.Domain.Common.Responses
 {
@@ -18,6 +19,8 @@ namespace EmployeeManagement.Domain.Common.Responses
         public T? Data { get; set; }
 
         public List<Error> Errors { get; set; } = [];
+        
+        //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string TraceId { get; set; }
 
         public Response()

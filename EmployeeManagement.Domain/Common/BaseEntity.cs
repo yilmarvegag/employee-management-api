@@ -2,15 +2,28 @@
 {
     public abstract class BaseEntity
     {
+        /// <summary>
+        /// Globally Unique Identifier.
+        /// According to a standard Universally Unique Identifier (UUID).
+        /// Specified by the Open Software Foundation (OSF).
+        /// </summary>
         public Guid Id { get; protected set; }
 
-        private readonly List<IDomainEvent> _domainEvents = [];
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        /// <summary>
+        /// Date when the record is created.
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
 
-        protected void AddDomainEvent(IDomainEvent domainEvent)
-            => _domainEvents.Add(domainEvent);
+        /// <summary>
+        /// Date when the record was last updated.
+        /// </summary>
+        public DateTime? UpdatedAt { get; set; }
 
-        public void ClearDomainEvents()
-            => _domainEvents.Clear();
+        /// <summary>
+        /// Handles logical deletion of the registry.
+        /// True/1 => has been deleted.
+        /// False/0 => has not been deleted.
+        /// </summary>
+        public bool IsDeleted { get; set; } = false;
     }
 }
