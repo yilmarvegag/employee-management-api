@@ -35,6 +35,7 @@ builder.Services.AddControllers(options =>
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerWithJwt();
 
 // API Versioning
@@ -48,14 +49,14 @@ var app = builder.Build();
 // Apply database migrations and seed data
 if (app.Environment.IsDevelopment())
 {
-    await app.MigrateDatabase();
+    await app.MigrateDatabaseAsync();
 }
 
 app.MapHealthChecks("/health");
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    //app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }

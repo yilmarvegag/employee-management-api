@@ -1,0 +1,341 @@
+{
+  "info": {
+    "_postman_id": "3a6a1829-6af5-4d98-bcd8-f88e8913b01e",
+    "name": "Employee Management API",
+    "description": "This Postman collection contains the available endpoints for interacting with the Employee Management API.\n\nThe API provides functionality to manage employees, authentication, and system health monitoring.\n\n## Features\n\n- Employee CRUD operations\n    \n- Authentication with JWT\n    \n- Role-based authorization\n    \n- Department employee queries\n    \n- Health monitoring endpoint\n    \n\n## Authentication\n\nThe API uses **JWT Bearer authentication**.\n\nTo authenticate:\n\n1. Execute the **Login** request.\n    \n2. The access token will automatically be stored in the `Bearer` collection variable.\n    \n3. All other endpoints will automatically use this token.\n    \n\n## Roles\n\nTwo roles exist in the system:\n\nAdmin\n\n- Full access to all endpoints\n    \n\nUser\n\n- Read-only access to employee endpoints\n    \n\n## Base URL\n\n[https://localhost:7183/api/v1](https://localhost:7183/api/v1)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "6363575"
+  },
+  "item": [
+    {
+      "name": "Employees",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7183/api/v1/employees",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7183",
+          "path": [
+            "api",
+            "v1",
+            "employees"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7183/health",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7183",
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(pm.response.text());\r",
+              "\r",
+              " if(jsonData[\"status\"] == 200){\r",
+              "    var token =jsonData.data.accessToken;\r",
+              "    pm.collectionVariables.set(\"Bearer\", token);\r",
+              "    // console.info(pm.collectionVariables.get(\"Bearer\"));\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userName\": \"admin@employeemanagement.com\",\r\n    \"password\": \"Admin123!\"\r\n}\r\n\r\n// {\r\n// //     \"userName\": \"user@employeemanagement.com\",\r\n//     \"password\": \"User123!\"\r\n// }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7183/api/v1/auth/login",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7183",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Employee",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// ============================================\r",
+              "// RANDOM NUMBER GENERATOR (1-4)\r",
+              "// ============================================\r",
+              "\r",
+              "function getRandomInt(min, max) {\r",
+              "    // Ensure we're working with integers\r",
+              "    min = Math.ceil(min);\r",
+              "    max = Math.floor(max);\r",
+              "    \r",
+              "    // Generate random integer\r",
+              "    // Math.random() returns 0 to 0.999...\r",
+              "    // Multiply by range length, add min, then floor\r",
+              "    return Math.floor(Math.random() * (max - min + 1)) + min;\r",
+              "}\r",
+              "\r",
+              "// Generate a random number between 1 and 4\r",
+              "var randomNumber = getRandomInt(1, 4);\r",
+              "\r",
+              "// Store the generated number as a collection variable\r",
+              "// You can change this to pm.environment.set() or pm.globals.set() if needed\r",
+              "pm.collectionVariables.set(\"randomNumber\", randomNumber);\r",
+              "\r",
+              "console.log(\"[RANDOM NUMBER GENERATOR] Generated number: \" + randomNumber);\r",
+              "\r",
+              "\r",
+              "// ============================================\r",
+              "// USAGE IN BODY:\r",
+              "// ============================================\r",
+              "// \r",
+              "// In your request body (JSON format example):\r",
+              "// {\r",
+              "//     \"fieldName\": {{randomNumber}}\r",
+              "// }\r",
+              "//\r",
+              "// For form-data or urlencoded:\r",
+              "// fieldName = {{randomNumber}}\r",
+              "// \r",
+              "// ============================================"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"currentPosition\": {{randomNumber}},\r\n    \"salary\": {{$randomPrice}},\r\n    \"departmentId\": \"BDAFD12B-DAE3-4DCA-A8BD-8BA286EA0530\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7183/api/v1/employees",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7183",
+          "path": [
+            "api",
+            "v1",
+            "employees"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Employee",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7183/api/v1/employees/323af15f-3a84-4aee-ba5e-c800b1f7f57f",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7183",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "323af15f-3a84-4aee-ba5e-c800b1f7f57f"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Employee",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": \"323af15f-3a84-4aee-ba5e-c800b1f7f57f\",\r\n  \"name\": \"Well Done\",\r\n  \"currentPosition\": 2,\r\n  \"salary\": 35700\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7183/api/v1/employees/323af15f-3a84-4aee-ba5e-c800b1f7f57f",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7183",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "323af15f-3a84-4aee-ba5e-c800b1f7f57f"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get By Id",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n \"name\": \"Carlos Vega\",\r\n \"currentPosition\": 2,\r\n \"salary\": 5000\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7183/api/v1/employees/7cb20a75-01c3-47d5-a559-ed4fad247d80",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7183",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "7cb20a75-01c3-47d5-a559-ed4fad247d80"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Employees By Department With Projects",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n \"name\": \"Carlos Vega\",\r\n \"currentPosition\": 2,\r\n \"salary\": 5000\r\n}"
+        },
+        "url": {
+          "raw": "https://localhost:7183/api/v1/employees/department/9488004E-09CB-4AE3-BEDB-04D9A71DAA82/projects",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7183",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "department",
+            "9488004E-09CB-4AE3-BEDB-04D9A71DAA82",
+            "projects"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{Bearer}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "Bearer",
+      "value": ""
+    },
+    {
+      "key": "randomNumber",
+      "value": ""
+    }
+  ]
+}

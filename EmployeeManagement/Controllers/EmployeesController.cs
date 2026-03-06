@@ -41,7 +41,7 @@ namespace EmployeeManagement.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([FromBody] CreateEmployeeCommand command)
+        public async Task<IActionResult> Create(CreateEmployeeCommand command)
         {
             var result = await _mediator.Send(command);
 

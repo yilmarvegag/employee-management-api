@@ -1,10 +1,11 @@
-﻿using FluentValidation;
+﻿using EmployeeManagement.Domain.Enums;
+using FluentValidation;
 
 namespace EmployeeManagement.Application.Features.Commands.Employees.CreateEmployee
 {
-    public class UpdateEmployeeValidator : AbstractValidator<CreateEmployeeCommand>
+    public class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCommand>
     {
-        public UpdateEmployeeValidator()
+        public CreateEmployeeCommandValidator()
         {
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
@@ -18,7 +19,7 @@ namespace EmployeeManagement.Application.Features.Commands.Employees.CreateEmplo
                 .WithMessage("Salary must be greater than zero.");
 
             RuleFor(x => x.CurrentPosition)
-                .IsInEnum()
+                .Must(value => Enum.IsDefined(typeof(PositionType), value))
                 .WithMessage("Invalid employee position.");
 
             RuleFor(x => x.DepartmentId)

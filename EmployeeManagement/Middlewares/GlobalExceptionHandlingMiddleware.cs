@@ -1,7 +1,6 @@
 ﻿using EmployeeManagement.Application.Exceptions;
 using EmployeeManagement.Domain.Common.Responses;
 using EmployeeManagement.Domain.Exceptions;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
 

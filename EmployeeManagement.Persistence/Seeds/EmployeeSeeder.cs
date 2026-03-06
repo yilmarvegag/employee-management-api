@@ -18,10 +18,10 @@ namespace EmployeeManagement.Persistence.Seeds
                 return;
             var employees = new List<Employee>
             {
-                new("John Doe",PositionType.Manager,6000, department1.Id),
-                new("Jane Smith",PositionType.RegularEmployee,3500, department2.Id),
-                new("Michael Brown",PositionType.SeniorManager,8000, department3.Id),
-                new("Kevin Muentes",PositionType.SeniorManager,8000, department4.Id)
+                new("John Doe", PositionType.Manager, 6000, department1.Id),
+                new("Jane Smith", PositionType.RegularEmployee, 3500, department2.Id),
+                new("Michael Brown", PositionType.SeniorManager, 8000, department3.Id),
+                new("Kevin Muentes", PositionType.Director, 8000, department4.Id)
             };
 
             await context.Employees.AddRangeAsync(employees);

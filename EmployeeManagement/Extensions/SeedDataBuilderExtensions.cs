@@ -9,7 +9,7 @@ namespace EmployeeManagement.API.Extensions
     /// </summary>
     public static class SeedDataBuilderExtensions
     {
-        public static async Task MigrateDatabase(this WebApplication webApp)
+        public static async Task MigrateDatabaseAsync(this WebApplication webApp)
         {
             // Create a service scope
             using var scope = webApp.Services.CreateScope(); 
