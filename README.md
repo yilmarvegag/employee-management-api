@@ -526,7 +526,10 @@ The following engineering blogs and community resources were consulted for best 
 These resources were used to ensure that the implementation follows modern software engineering practices.
 
 ---
+# Bonus
+[Collection postman ](https://github.com/yilmarvegag/employee-management-api/blob/main/Employee%20Management%20API.postman_collection.json)
 
+---
 # Author
 
 **Yilmar Vega**
