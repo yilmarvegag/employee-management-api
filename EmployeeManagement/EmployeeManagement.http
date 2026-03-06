@@ -1,0 +1,15 @@
+@EmployeeManagement_HostAddress = http://localhost:5245
+
+### Create Employee
+POST https://localhost:7183/api/v1/employees
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "currentPosition": 2,
+  "salary": 50000,
+  "departmentId": "11111111-1111-1111-1111-111111111111"
+}
+
+### Get Employees
+GET https://localhost:7183/api/v1/employees
